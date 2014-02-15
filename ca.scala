@@ -5,6 +5,7 @@ import scala.Math.pow
 
 object CA {
   val twos = Array(1, 2, 4, 8, 16, 32, 64, 128)
+  var width = 175
 
   def iterate(row: Vector[Int], cell: Int, rule: Int):Vector[Int] = {
     if (cell == 0) 
@@ -30,15 +31,18 @@ object CA {
     else 
       Vector(0)
   }
+
+  def run(rule:Int = 30, width: Int = 175, rows: Int = 100):Unit = {
+    this.width = width
+    var row = initAutomaton(width)
+    for(n <- 1 to rows) {
+      showRow(row)
+      row = iterate(row, 0, rule)
+    }
+  }
 }
+val argList = argv.toList.map(_.toInt)
+CA.run(argList(0),argList(1), argList(2))
 
 
-val width = 175
-
-var row = CA.initAutomaton(width)
-
-for(n <- 1 to 100) {
-  row = CA.iterate(row,0,30 )
-  CA.showRow(row)
-}
 
