@@ -7,16 +7,22 @@ object CA {
   var width = 175
 
   def getRow(row: Vector[Int], cell: Int, rule: Int):Vector[Int] = {
-    if (cell == 0) 
+    if (cell == 0)  //first cell in a row 
       Vector[Int](0) ++ getRow(row, 1, rule)
-    else if (cell < row.length -1) 
+    else if (cell < row.length -1) //middle cells
       Vector(getCell(row, cell, rule)) ++ getRow(row, cell + 1, rule)
-    else 
+    else  //last cell
       Vector(0)
   }
 
   def getCell(row: Vector[Int], cell: Int, rule: Int): Int = {
-    if (((twos(row(cell - 1) + (row(cell) * 2) + (row(cell + 1) * 4))) & rule) > 0 ) 1
+    val neighborhood = 
+      twos(
+        row(cell - 1)         //left cell 
+        + (row(cell) * 2)     //middle
+        + (row(cell + 1) * 4) //right
+      )
+    if ((neighborhood & rule) > 0 ) 1
     else 0
   }
 
