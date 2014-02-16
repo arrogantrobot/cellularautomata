@@ -6,11 +6,11 @@ object CA {
   val twos = Array(1, 2, 4, 8, 16, 32, 64, 128)
   var width = 175
 
-  def iterate(row: Vector[Int], cell: Int, rule: Int):Vector[Int] = {
+  def getRow(row: Vector[Int], cell: Int, rule: Int):Vector[Int] = {
     if (cell == 0) 
-      Vector[Int](0) ++ iterate(row, 1, rule)
+      Vector[Int](0) ++ getRow(row, 1, rule)
     else if (cell < row.length -1) 
-      Vector(getCell(row, cell, rule)) ++ iterate(row, cell + 1, rule)
+      Vector(getCell(row, cell, rule)) ++ getRow(row, cell + 1, rule)
     else 
       Vector(0)
   }
@@ -36,13 +36,17 @@ object CA {
     var row = initAutomaton(width)
     for(n <- 1 to rows) {
       showRow(row)
-      row = iterate(row, 0, rule)
+      row = getRow(row, 0, rule)
     }
   }
 }
 
 val argList = argv.toList.map(_.toInt)
-CA.run(argList(0),argList(1), argList(2))
+if (argList.length >= 3)
+  CA.run(argList(0),argList(1), argList(2))
+else
+  CA.run()
+
 
 
 
