@@ -1,7 +1,6 @@
 #!/bin/bash
 exec scala -savecompiled "$0" "$@"
 !#
-import scala.Math.pow
 
 object CA {
   val twos = Array(1, 2, 4, 8, 16, 32, 64, 128)
@@ -41,6 +40,7 @@ object CA {
     }
   }
 }
+
 val argList = argv.toList.map(_.toInt)
 CA.run(argList(0),argList(1), argList(2))
 
