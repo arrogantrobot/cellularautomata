@@ -1,13 +1,20 @@
-#!/bin/bash
-exec scala -savecompiled "$0" "$@"
-!#
+package com.buildtall.ca
 
 object CA {
   val twos = Array(1, 2, 4, 8, 16, 32, 64, 128)
   var width = 175
 
+  def main(args:Array[String]) = {
+
+    if (args.length == 3)
+      run(args(0).toInt,args(1).toInt, args(2).toInt)
+    else
+      run()
+
+  }
+
   def getRow(row: Vector[Int], cell: Int, rule: Int):Vector[Int] = {
-    if (cell == 0)  //first cell in a row 
+    if (cell == 0)  //first cell in a row
       Vector[Int](0) ++ getRow(row, 1, rule)
     else if (cell < row.length -1) //middle cells
       Vector(getCell(row, cell, rule)) ++ getRow(row, cell + 1, rule)
@@ -16,24 +23,23 @@ object CA {
   }
 
   def getCell(row: Vector[Int], cell: Int, rule: Int): Int = {
-    val neighborhood = 
+    val neighborhood =
       twos(
-        row(cell - 1)         //left cell 
-        + (row(cell) * 2)     //middle
-        + (row(cell + 1) * 4) //right
+        row(cell - 1)         //left cell
+          + (row(cell) * 2)     //middle
+          + (row(cell + 1) * 4) //right
       )
     if ((neighborhood & rule) > 0 ) 1
     else 0
   }
-
   def showRow(row: Vector[Int]):Unit = {
     println(row.foldLeft("")(_ + _.toString))
   }
 
   def initAutomaton(count: Int):Vector[Int] = {
-    if (count > 0) 
+    if (count > 0)
       Vector(if (count == width/2) 1 else 0) ++ initAutomaton(count - 1)
-    else 
+    else
       Vector(0)
   }
 
@@ -46,13 +52,3 @@ object CA {
     }
   }
 }
-
-val argList = argv.toList.map(_.toInt)
-if (argList.length >= 3)
-  CA.run(argList(0),argList(1), argList(2))
-else
-  CA.run()
-
-
-
-
